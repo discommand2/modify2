@@ -76,8 +76,8 @@ class DiscordClient
         ]);
         $this->discord->updatePresence($activity);
         $this->discord->on('raw', $this->raw(...));
-        $old_cmds = Async\await($this->discord->application->commands->freshen());
-        foreach ($old_cmds as $old_cmd) Async\await($this->discord->application->commands->delete($old_cmd));
+        //$old_cmds = Async\await($this->discord->application->commands->freshen());
+        //foreach ($old_cmds as $old_cmd) Async\await($this->discord->application->commands->delete($old_cmd));
         foreach (Commands::get() as $command) {
             $slashcommand = new Command($this->discord, $command);
             $this->discord->application->commands->save($slashcommand);
@@ -126,6 +126,8 @@ class DiscordClient
         switch ($content['t']) {
             case 'MESSAGE_CREATE':
                 return $this->messageCreate($content['d']);
+            case 'INTERACTION_HANDLE':
+                return $this->interactionHandle($content['d']);
         }
         return true;
     }
@@ -169,6 +171,14 @@ class DiscordClient
             $message['content'] = $split['content'];
             $this->sendMessage($message);
         }
+        return true;
+    }
+
+    private function interactionHandle(array $interaction): bool
+    {
+        $this->log->debug('interactionHandle', ['interaction' => $interaction]);
+        $pending_interaction = $this->interactions[$interaction['id']];
+        $pending_interaction->respondWithMessage($this->builder($interaction));
         return true;
     }
 
