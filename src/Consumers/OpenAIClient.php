@@ -4,7 +4,7 @@ namespace RPurinton\modify2\Consumers;
 
 use Bunny\{Channel, Message};
 use React\EventLoop\LoopInterface;
-use RPurinton\modify2\{Log, Error, MySQL};
+use RPurinton\modify2\{Config, Log, Error, MySQL};
 use RPurinton\modify2\RabbitMQ\{Consumer, Sync};
 
 class OpenAIClient
@@ -107,6 +107,8 @@ class OpenAIClient
     {
         $this->log->debug('messageCreate', ['data' => $data]);
         if ($data['author']['id'] == $this->discord_id) return true; // ignore messages from self
+        $eval = $this->evaluate($data['content']);
+        $this->log->debug('messageCreate', ['eval' => $eval]);
         return true;
     }
 
@@ -116,7 +118,7 @@ class OpenAIClient
             'http' => [
                 'method' => 'POST',
                 'header' => implode("\r\n", [
-                    'Authorization: Bearer ' . $this->config['openai_token'],
+                    'Authorization: Bearer ' . Config::get('openai')['token'],
                     'Content-Type: application/json'
                 ]),
                 'content' => json_encode(array('input' => $text))
