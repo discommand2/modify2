@@ -1,15 +1,15 @@
 [Unit]
-Description=GPT4discord OpenAIClient %i
-PartOf=gpt4discord.target
+Description=modify2 OpenAIClient %i
+PartOf=modify2.target
 After=network.target
 
 [Service]
 Type=simple
-User=gpt4discord
-Group=gpt4discord
-ExecStart=/var/www/gpt4discord/scripts/openaiclient.php %i
+User=modify2
+Group=modify2
+ExecStart=/var/www/modify2/scripts/openaiclient.php %i
 Restart=on-failure
 RestartSec=5
 
 [Install]
-WantedBy=gpt4discord.target
+WantedBy=modify2.target

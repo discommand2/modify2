@@ -1,11 +1,11 @@
 #!/usr/bin/env php
 <?php
 
-namespace RPurinton\GPT4discord;
+namespace RPurinton\modify2;
 
 use React\EventLoop\Loop;
-use RPurinton\GPT4discord\RabbitMQ\{Consumer, Publisher};
-use RPurinton\GPT4discord\Consumers\DiscordClient;
+use RPurinton\modify2\RabbitMQ\{Consumer, Publisher};
+use RPurinton\modify2\Consumers\DiscordClient;
 
 $worker_id = $argv[1] ?? 0;
 

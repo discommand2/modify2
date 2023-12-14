@@ -1,6 +1,6 @@
 <?php
 
-namespace RPurinton\GPT4discord\RabbitMQ;
+namespace RPurinton\modify2\RabbitMQ;
 
 class Sync extends Publisher
 {

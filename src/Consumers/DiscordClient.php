@@ -1,13 +1,13 @@
 <?php
 
-namespace RPurinton\GPT4discord\Consumers;
+namespace RPurinton\modify2\Consumers;
 
 use Bunny\{Channel, Message};
 use Discord\{Discord, WebSockets\Intents};
 use Discord\Parts\User\Activity;
 use React\{Async, EventLoop\LoopInterface};
-use RPurinton\GPT4discord\{Log, Error, MySQL};
-use RPurinton\GPT4discord\RabbitMQ\{Consumer, Publisher};
+use RPurinton\modify2\{Log, Error, MySQL};
+use RPurinton\modify2\RabbitMQ\{Consumer, Publisher};
 use stdClass;
 
 class DiscordClient
@@ -34,11 +34,11 @@ class DiscordClient
     private function validateConfig(array $config): bool
     {
         $requiredKeys = [
-            'log' => 'RPurinton\GPT4discord\Log',
+            'log' => 'RPurinton\modify2\Log',
             'loop' => 'React\EventLoop\LoopInterface',
-            'mq' => 'RPurinton\GPT4discord\RabbitMQ\Consumer',
-            'pub' => 'RPurinton\GPT4discord\RabbitMQ\Publisher',
-            'sql' => 'RPurinton\GPT4discord\MySQL'
+            'mq' => 'RPurinton\modify2\RabbitMQ\Consumer',
+            'pub' => 'RPurinton\modify2\RabbitMQ\Publisher',
+            'sql' => 'RPurinton\modify2\MySQL'
         ];
         foreach ($requiredKeys as $key => $class) {
             if (!array_key_exists($key, $config)) throw new Error('missing required key ' . $key);

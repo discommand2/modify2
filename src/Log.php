@@ -1,6 +1,6 @@
 <?php
 
-namespace RPurinton\GPT4discord;
+namespace RPurinton\modify2;
 
 class Log extends \Monolog\Logger
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace RPurinton\GPT4discord\Consumers;
+namespace RPurinton\modify2\Consumers;
 
 use Bunny\{Channel, Message};
 use React\EventLoop\LoopInterface;
-use RPurinton\GPT4discord\{Log, Error, MySQL};
-use RPurinton\GPT4discord\RabbitMQ\{Consumer, Sync};
+use RPurinton\modify2\{Log, Error, MySQL};
+use RPurinton\modify2\RabbitMQ\{Consumer, Sync};
 
 class OpenAIClient
 {
@@ -31,11 +31,11 @@ class OpenAIClient
     private function validateConfig(array $config): bool
     {
         $requiredKeys = [
-            'log' => 'RPurinton\GPT4discord\Log',
+            'log' => 'RPurinton\modify2\Log',
             'loop' => 'React\EventLoop\LoopInterface',
-            'mq' => 'RPurinton\GPT4discord\RabbitMQ\Consumer',
-            'sync' => 'RPurinton\GPT4discord\RabbitMQ\Sync',
-            'sql' => 'RPurinton\GPT4discord\MySQL'
+            'mq' => 'RPurinton\modify2\RabbitMQ\Consumer',
+            'sync' => 'RPurinton\modify2\RabbitMQ\Sync',
+            'sql' => 'RPurinton\modify2\MySQL'
         ];
         foreach ($requiredKeys as $key => $class) {
             if (!array_key_exists($key, $config)) throw new Error('missing required key ' . $key);

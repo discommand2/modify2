@@ -1,10 +1,10 @@
 [Unit]
-Description=GPT4discord Target
-Wants=gpt4discord-client.service
-Wants=gpt4discord-openai@1.service
-Wants=gpt4discord-openai@2.service
-Wants=gpt4discord-openai@3.service
-Wants=gpt4discord-openai@4.service
+Description=modify2 Target
+Wants=modify2-client.service
+Wants=modify2-openai@1.service
+Wants=modify2-openai@2.service
+Wants=modify2-openai@3.service
+Wants=modify2-openai@4.service
 After=network.target
 
 [Install]

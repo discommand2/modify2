@@ -1,4 +1,4 @@
-# GPT4discord
+# modify2
 
 Simple ChatGPT Bot for Discord
 

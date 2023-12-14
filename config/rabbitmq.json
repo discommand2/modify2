@@ -1,7 +1,7 @@
 {
     "host": "127.0.0.1",
-    "vhost": "gpt4discord",
-    "user": "gpt4discord",
-    "password": "gpt4discord",
+    "vhost": "modify2",
+    "user": "modify2",
+    "password": "modify2",
     "heartbeat": 1000
 }

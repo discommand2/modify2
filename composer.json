@@ -1,6 +1,6 @@
 {
-    "name": "rpurinton/gpt4discord",
-    "description": "GPT4discord Project Template",
+    "name": "rpurinton/modify2",
+    "description": "modify2 Project Template",
     "type": "project",
     "require-dev": {
         "phpunit/phpunit": "^10.4"
@@ -8,7 +8,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "RPurinton\\GPT4discord\\": "src/"
+            "RPurinton\\modify2\\": "src/"
         }
     },
     "authors": [

@@ -1,8 +1,8 @@
 <?php
 
-namespace RPurinton\GPT4discord\RabbitMQ;
+namespace RPurinton\modify2\RabbitMQ;
 
-use RPurinton\GPT4discord\{Config, Error, Log};
+use RPurinton\modify2\{Config, Error, Log};
 use Bunny\{Client, Channel, Exception\BunnyException};
 use stdClass;
 
