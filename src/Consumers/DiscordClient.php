@@ -177,8 +177,8 @@ class DiscordClient
     private function interactionHandle(array $interaction): bool
     {
         $this->log->debug('interactionHandle', ['interaction' => $interaction]);
-        $pending_interaction = $this->interactions[$interaction['id']];
-        $pending_interaction->respondWithMessage($this->builder($interaction));
+        $this->interactions[$interaction['id']]->respondWithMessage($this->builder($interaction));
+        unset($this->interactions[$interaction['id']]);
         return true;
     }
 
