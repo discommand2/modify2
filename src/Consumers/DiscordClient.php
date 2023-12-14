@@ -5,8 +5,9 @@ namespace RPurinton\modify2\Consumers;
 use Bunny\{Channel, Message};
 use Discord\{Discord, WebSockets\Intents};
 use Discord\Parts\User\Activity;
+use Discord\Parts\Interactions\{Interaction, Command\Command};
 use React\{Async, EventLoop\LoopInterface};
-use RPurinton\modify2\{Log, Error, MySQL};
+use RPurinton\modify2\{Commands, Log, Error, MySQL};
 use RPurinton\modify2\RabbitMQ\{Consumer, Publisher};
 use stdClass;
 
@@ -69,12 +70,30 @@ class DiscordClient
         $this->pub->queueDeclare($sharing_queue, false) or throw new Error('failed to declare private queue');
         $this->mq->consume('discord', $this->callback(...)) or throw new Error('failed to connect to queue');
         $activity = $this->discord->factory(Activity::class, [
-            'name' => 'AI Language Model',
+            'name' => 'Discord Moderator',
             'type' => Activity::TYPE_PLAYING
         ]);
         $this->discord->updatePresence($activity);
         $this->discord->on('raw', $this->raw(...));
-        return true;
+        $old_cmds = Async\await($this->discord->application->commands->freshen());
+        foreach ($old_cmds as $old_cmd) Async\await($this->discord->application->commands->delete($old_cmd));
+        foreach (Commands::get() as $command) {
+            $slashcommand = new Command($this->discord, $command);
+            $this->discord->application->commands->save($slashcommand);
+            $this->discord->listenCommand($command["name"], $this->interaction(...));
+        }
+    }
+
+    private function interaction(Interaction $interaction)
+    {
+        $this->log->debug('interaction', ['interaction' => $interaction]);
+        $message = [
+            "op" => 0,
+            "t" => 'INTERACTION_CREATE',
+            "d" => json_decode(json_encode($interaction), true)
+        ];
+        $this->pub->publish("openai", $message);
+        $interaction->acknowledge(true);
     }
 
     private function raw(stdClass $message, Discord $discord): bool // from Discord\Discord::onRaw
