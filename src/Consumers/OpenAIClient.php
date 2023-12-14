@@ -106,29 +106,31 @@ class OpenAIClient
     private function messageCreate(array $data): bool
     {
         $this->log->debug('messageCreate', ['data' => $data]);
-        $relevant = false;
         if ($data['author']['id'] == $this->discord_id) return true; // ignore messages from self
-        if (!$this->allowedRoles($data['member']['roles'])) return true; // ignore messages from non-allowed roles
-        if (isset($data['referenced_message']) && $data['referenced_message']["author"]["id"] == $this->discord_id) $relevant = true;
-        // TODO: check if bot role or bot is mentioned
-        if (!$relevant) return true;
         return true;
     }
 
-    private function allowedRoles(array $roles): bool
+    private function evaluate(string $text): array
     {
-        // TODO: Implement actual logic
-        //foreach ($roles as $role) if (in_array($role, $this->config['allowed_roles'])) return true;
-        return false;
+        return json_decode(file_get_contents('https://api.openai.com/v1/moderations', false, stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'header' => implode("\r\n", [
+                    'Authorization: Bearer ' . $this->config['openai_token'],
+                    'Content-Type: application/json'
+                ]),
+                'content' => json_encode(array('input' => $text))
+            ]
+        ])), true);
     }
 
-    private function pong(int $channel_id): bool
+    private function log_message(int $channel_id, string $content): bool
     {
         $this->sync->publish('discord', [
             'op' => 0, // DISPATCH
             't' => 'MESSAGE_CREATE',
             'd' => [
-                'content' => 'pong',
+                'content' => $content,
                 'channel_id' => $channel_id,
             ]
         ]) or throw new Error('failed to publish message to discord');
