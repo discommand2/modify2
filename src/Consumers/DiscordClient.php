@@ -20,6 +20,7 @@ class DiscordClient
     private ?Consumer $mq = null;
     private ?Publisher $pub = null;
     private ?MySQL $sql = null;
+    private array $interactions = [];
 
     public function __construct(private array $config)
     {
@@ -87,9 +88,10 @@ class DiscordClient
     private function interaction(Interaction $interaction)
     {
         $this->log->debug('interaction', ['interaction' => $interaction]);
+        $this->interactions[$interaction->id] = $interaction;
         $message = [
             "op" => 0,
-            "t" => 'INTERACTION_CREATE',
+            "t" => 'INTERACTION_HANDLE',
             "d" => json_decode(json_encode($interaction), true)
         ];
         $this->pub->publish("openai", $message);
