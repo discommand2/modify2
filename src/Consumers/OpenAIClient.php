@@ -15,6 +15,7 @@ class OpenAIClient
     private ?Consumer $mq = null;
     private ?Sync $sync = null;
     private ?MySQL $sql = null;
+    private ?string $openai_token = null;
     private $ai = null;
 
     public function __construct(private array $config)
@@ -48,6 +49,7 @@ class OpenAIClient
     {
         $this->log->debug('OpenAIClient::init');
         $this->discord_id = $this->getId();
+        $this->openai_token = $this->getOpenAIToken();
         $sharing_queue = 'openai';
         $private_queue = $this->log->getName();
         $this->sync->queueDeclare($sharing_queue, false) or throw new Error('failed to declare private queue');
@@ -103,6 +105,24 @@ class OpenAIClient
         return true;
     }
 
+    private function getOpenAIToken(): string
+    {
+        $result = $this->sql->query('SELECT `api_key` FROM `openai_api_keys` LIMIT 1');
+        if ($result === false) throw new Error('failed to get openai_api_key');
+        if ($result->num_rows === 0) throw new Error('no openai_api_key found');
+        $row = $result->fetch_assoc();
+        $api_key = $row['api_key'] ?? null;
+        $this->validateApiKey($api_key) or throw new Error('invalid openai_api_key');
+        return $api_key;
+    }
+
+    private function validateApiKey(mixed $api_key): bool
+    {
+        $this->log->debug('validateId', ['id' => $api_key, 'type' => gettype($api_key)]);
+        return preg_match('/^sk-[a-zA-Z0-9]{48}$/', $api_key) === 1;
+    }
+
+
     private function messageCreate(array $data): bool
     {
         $this->log->debug('messageCreate', ['data' => $data]);
@@ -118,7 +138,7 @@ class OpenAIClient
             'http' => [
                 'method' => 'POST',
                 'header' => implode("\r\n", [
-                    'Authorization: Bearer ' . Config::get('openai')['token'],
+                    'Authorization: Bearer ' . $this->openai_token,
                     'Content-Type: application/json'
                 ]),
                 'content' => json_encode(array('input' => $text))
