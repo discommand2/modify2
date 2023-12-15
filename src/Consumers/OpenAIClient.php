@@ -177,7 +177,7 @@ class OpenAIClient
     {
         $locale = $this->locales[$data['locale'] ?? 'en-US'] ?? $this->locales['en-US'];
         // TODO: check if user has permission to set log channel (must be admin)
-        $admin = $data['data']['member']['permissions']['administrator'] ?? false;
+        $admin = $data['member']['permissions']['administrator'] ?? false;
         if (!$admin) return $this->interactionReply($data['id'], $locale['log_channel_admin_only']);
         $guild_id = $this->sql->escape($data['guild_id']);
         $channel_id = $this->sql->escape($data['channel_id']);
