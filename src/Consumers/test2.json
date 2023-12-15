@@ -1,79 +1,22 @@
 {
     "data": {
-        "id": "1185335527117963285",
+        "id": "1185339453506596945",
         "application_id": "1184944471960465518",
         "type": 2,
         "data": {
-            "id": "1185334853139435581",
-            "name": "Evaluate",
-            "type": 3,
-            "resolved": {
-                "users": null,
-                "members": null,
-                "roles": null,
-                "channels": null,
-                "messages": {
-                    "1185313636827287694": {
-                        "reactions": [],
-                        "attachments": [],
-                        "tts": false,
-                        "embeds": [],
-                        "timestamp": "2023-12-15T20:13:13Z",
-                        "mention_everyone": false,
-                        "id": "1185313636827287694",
-                        "pinned": false,
-                        "edited_timestamp": null,
-                        "author": {
-                            "id": "1112146727932268585",
-                            "username": "Lilyanne",
-                            "discriminator": "8564",
-                            "avatar": "https://cdn.discordapp.com/avatars/1112146727932268585/483ae28d5050dd950779815a5020263c.webp?size=1024",
-                            "bot": true,
-                            "system": null,
-                            "mfa_enabled": null,
-                            "locale": null,
-                            "verified": null,
-                            "email": null,
-                            "flags": null,
-                            "banner": null,
-                            "accent_color": null,
-                            "premium_type": 0,
-                            "public_flags": 0
-                        },
-                        "mention_roles": [],
-                        "mention_channels": [],
-                        "content": "- **Implement Message Context Evaluation Feature**\n  - Code the new command allowing users to evaluate a specific message by the bot on demand.\n  - Ensure the command includes the necessary permission checks for user roles.\n\n- **Testing the New Feature**\n  - Perform testing in a controlled environment to ensure accurate on-demand evaluations.\n  - Check that the message context command works seamlessly with various message contents.\n\n- **User Guide Update**\n  - Document the message context evaluation feature, explaining how and when to use it.\n  - Localize the instructions to align with the guild's settings.\n\n- **Gather Beta Feedback**\n  - Encourage beta testers on AI Explained to try the on-demand evaluation feature.\n  - Collect and organize feedback to determine if any adjustments are needed.\n\n- **Prepare for Additional Features**\n  - Begin scoping out the /scan and /scan_delete commands based on user feedback and priorities.\n  - Discuss any additional functionalities or enhancements that could benefit the bot.\n\n- **Continuous Monitoring and Improvement**\n  - Regularly check the bot’s performance and user interactions for unexpected behaviors.\n  - Iterate on the bot's features based on ongoing feedback and testing results.\n\nOnce you're set to begin, we can kick off with the message context evaluation feature and go from there!",
-                        "channel_id": "1185027253000753236",
-                        "mentions": [],
-                        "type": 0,
-                        "flags": 0,
-                        "message_reference": null,
-                        "nonce": null,
-                        "member": null,
-                        "guild_id": null,
-                        "webhook_id": null,
-                        "activity": null,
-                        "application": null,
-                        "application_id": null,
-                        "referenced_message": null,
-                        "interaction": null,
-                        "components": [],
-                        "sticker_items": null,
-                        "stickers": null,
-                        "position": null
-                    }
-                },
-                "attachments": null
-            },
+            "id": "1184968719978475551",
+            "name": "help",
+            "type": 1,
+            "resolved": null,
             "options": [],
             "custom_id": null,
             "component_type": null,
             "values": null,
-            "target_id": "1185313636827287694",
+            "target_id": null,
             "components": []
         },
         "guild_id": "1185027252325458000",
-        "channel_id": "1185027253000753236",
+        "channel_id": "1185324257572569110",
         "member": {
             "user": {
                 "id": "363853952749404162",
@@ -226,11 +169,11 @@
             "premium_type": null,
             "public_flags": 64
         },
-        "token": "aW50ZXJhY3Rpb246MTE4NTMzNTUyNzExNzk2MzI4NTpNb0dGNjRuUEtkbm9nZkdJaXIxZVppMEFaanFGaktQbUI2Y2piSzlOQ3A3WkxJZElER2lnRUVENmxRcU5IREluNUNMTUpKdkM0ck93NDc4WTdCWEFENDEzZkwwNmZMNUE4Mklvd3YzbWNJQ2pCYkhOemZ0blJ2MkdtdEtJMDJ5Zw",
+        "token": "aW50ZXJhY3Rpb246MTE4NTMzOTQ1MzUwNjU5Njk0NTpPcUZWa1dTQ3BRZEYwQkY1ejlaaVFKS25WTGZkZ25qaHlZUWJMeXQ2ajNVQnlaMUlHaE5aZGtxc3JxQ0RDVXN5S0ZhTDJicDlveE1kdU5UUTYzeXhtanVjVWxOdWdhWFZIUzdBcFh4WEJRajFDeUtHYlRlQTRFdkhOaUxoRTB1Ug",
         "version": 1,
         "message": null,
         "app_permissions": "562949953421311",
-        "locale": "en-US",
+        "locale": "es-419",
         "guild_locale": "en-US",
         "guild": {
             "id": "1185027252325458000",
@@ -695,14 +638,14 @@
             "feature_welcome_screen_enabled": false
         },
         "channel": {
-            "id": "1185027253000753236",
+            "id": "1185324257572569110",
             "type": 0,
             "guild_id": "1185027252325458000",
-            "position": 0,
-            "name": "general",
+            "position": 9,
+            "name": "log_channel",
             "topic": null,
             "nsfw": false,
-            "last_message_id": "1185333937921339503",
+            "last_message_id": "1185334366394663052",
             "bitrate": null,
             "user_limit": null,
             "rate_limit_per_user": 0,
@@ -710,7 +653,7 @@
             "icon": null,
             "owner_id": null,
             "application_id": null,
-            "parent_id": "1185027253000753234",
+            "parent_id": "1185272288417951754",
             "last_pin_timestamp": null,
             "rtc_region": null,
             "video_quality_mode": null,
@@ -720,4 +663,4 @@
             "is_private": false
         }
     }
-}
+} []

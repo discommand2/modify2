@@ -4,6 +4,7 @@
         "en-US": "log_channel",
         "pt-BR": "canal_de_registro",
         "es-ES": "canal_de_registro",
+        "es-419": "canal_de_registro",
         "zh-CN": "日志频道",
         "ko": "로그_채널"
     },
@@ -12,6 +13,7 @@
         "en-US": "Set a channel as the logging channel for the server",
         "pt-BR": "Defina um canal como o canal de registro para o servidor",
         "es-ES": "Establecer un canal como el canal de registro para el servidor",
+        "es-419": "Establecer un canal como el canal de registro para el servidor",
         "zh-CN": "将频道设置为服务器的日志频道",
         "ko": "서버의 로깅 채널로 채널 설정"
     }
