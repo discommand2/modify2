@@ -221,7 +221,7 @@ class OpenAIClient
         foreach ($eval['results'][0]['categories'] as $key => $value) {
             if ($value) {
                 $score = $eval['results'][0]['category_scores'][$key] ?? -1;
-                $score = round($score * 100, 2) . '%';
+                $score = round($score * 100) . '%';
                 $description .= $key . ': ' . $score . "\n";
             }
         }
