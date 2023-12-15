@@ -1,0 +1,26 @@
+<svg width='400px' height='225px' version='1.1' xmlns='http://www.w3.org/2000/svg'>
+<rect x='0' y='0' width='400px' height='18.75px' fill='rgb(26,229,0)' />
+<text x='50%' y='0' dominant-baseline='middle' text-anchor='middle' fill='white'>Jan</text>
+<rect x='0' y='18.75' width='400px' height='18.75px' fill='rgb(77,178,0)' />
+<text x='50%' y='18.75' dominant-baseline='middle' text-anchor='middle' fill='white'>Feb</text>
+<rect x='0' y='37.5' width='400px' height='18.75px' fill='rgb(128,127,0)' />
+<text x='50%' y='37.5' dominant-baseline='middle' text-anchor='middle' fill='white'>Mar</text>
+<rect x='0' y='56.25' width='400px' height='18.75px' fill='rgb(179,76,0)' />
+<text x='50%' y='56.25' dominant-baseline='middle' text-anchor='middle' fill='white'>Apr</text>
+<rect x='0' y='75' width='400px' height='18.75px' fill='rgb(230,25,0)' />
+<text x='50%' y='75' dominant-baseline='middle' text-anchor='middle' fill='white'>May</text>
+<rect x='0' y='93.75' width='400px' height='18.75px' fill='rgb(51,204,0)' />
+<text x='50%' y='93.75' dominant-baseline='middle' text-anchor='middle' fill='white'>Jun</text>
+<rect x='0' y='112.5' width='400px' height='18.75px' fill='rgb(102,153,0)' />
+<text x='50%' y='112.5' dominant-baseline='middle' text-anchor='middle' fill='white'>Jul</text>
+<rect x='0' y='131.25' width='400px' height='18.75px' fill='rgb(153,102,0)' />
+<text x='50%' y='131.25' dominant-baseline='middle' text-anchor='middle' fill='white'>Aug</text>
+<rect x='0' y='150' width='400px' height='18.75px' fill='rgb(204,51,0)' />
+<text x='50%' y='150' dominant-baseline='middle' text-anchor='middle' fill='white'>Sep</text>
+<rect x='0' y='168.75' width='400px' height='18.75px' fill='rgb(128,127,0)' />
+<text x='50%' y='168.75' dominant-baseline='middle' text-anchor='middle' fill='white'>Oct</text>
+<rect x='0' y='187.5' width='400px' height='18.75px' fill='rgb(179,76,0)' />
+<text x='50%' y='187.5' dominant-baseline='middle' text-anchor='middle' fill='white'>Nov</text>
+<rect x='0' y='206.25' width='400px' height='18.75px' fill='rgb(230,25,0)' />
+<text x='50%' y='206.25' dominant-baseline='middle' text-anchor='middle' fill='white'>Dec</text>
+</svg>

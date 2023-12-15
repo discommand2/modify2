@@ -1,5 +1,4 @@
 {
-    "allow": "Allowed!",
-    "remove": "Removed!",
-    "list": "Allowed Users and Roles"
+    "help": "This bot is easy. Just type /log_channel in the channel that you want to set as log channel and you're done!",
+    "log_channel_confirm": "Log channel set to"
 }
