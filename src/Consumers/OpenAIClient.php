@@ -4,7 +4,7 @@ namespace RPurinton\modify2\Consumers;
 
 use Bunny\{Channel, Message};
 use React\EventLoop\LoopInterface;
-use RPurinton\modify2\{Config, Log, Error, MySQL};
+use RPurinton\modify2\{Locales, Log, Error, MySQL};
 use RPurinton\modify2\RabbitMQ\{Consumer, Sync};
 
 class OpenAIClient
@@ -17,6 +17,7 @@ class OpenAIClient
     private ?MySQL $sql = null;
     private ?string $openai_token = null;
     private $ai = null;
+    private ?array $locales = null;
 
     public function __construct(private array $config)
     {
@@ -48,6 +49,7 @@ class OpenAIClient
     public function init(): bool
     {
         $this->log->debug('OpenAIClient::init');
+        $this->locales = Locales::get();
         $this->discord_id = $this->getId();
         $this->openai_token = $this->getOpenAIToken();
         $sharing_queue = 'openai';

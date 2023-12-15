@@ -1,6 +1,6 @@
 <?php
 
-require_once '../vendor/autoload.php'; // Assuming SVG.php is in the same directory
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $values = [
     'Jan' => 0.1,
