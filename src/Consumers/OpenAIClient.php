@@ -135,6 +135,9 @@ class OpenAIClient
         if ($data['author']['id'] == $this->discord_id) return true;
         $eval = $this->evaluate($data['content'] ?? null);
         $this->log->debug('messageCreate', ['eval' => $eval]);
+        $flagged = $eval['results'][0]['flagged'] ?? false;
+        if (!$flagged) return true;
+        $this->log_message($data['guild_id'], 'Message flagged ' . print_r($eval, true));
         return true;
     }
 
@@ -176,7 +179,6 @@ class OpenAIClient
     private function logChannelSetup(array $data): bool
     {
         $locale = $this->locales[$data['locale'] ?? 'en-US'] ?? $this->locales['en-US'];
-        // TODO: check if user has permission to set log channel (must be admin)
         $admin = $data['member']['permissions']['administrator'] ?? false;
         if (!$admin) return $this->interactionReply($data['id'], $locale['log_channel_admin_only']);
         $guild_id = $this->sql->escape($data['guild_id']);
@@ -199,8 +201,14 @@ class OpenAIClient
         return true;
     }
 
-    private function log_message(int $channel_id, string $content): bool
+    private function log_message(int $guild_id, string $content): bool
     {
+        $this->log->debug('log_message', ['guild_id' => $guild_id, 'content' => $content]);
+        $result = $this->sql->query("SELECT `channel_id` FROM `log_channels` WHERE `guild_id` = '$guild_id' LIMIT 1");
+        if ($result === false || $result->num_rows === 0) return true;
+        $channel_id = $result->fetch_assoc()['channel_id'] ?? null;
+        if (!$channel_id) return true;
+        $this->log->debug('log_message', ['channel_id' => $channel_id]);
         $this->sync->publish('discord', [
             'op' => 0, // DISPATCH
             't' => 'MESSAGE_CREATE',
