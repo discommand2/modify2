@@ -137,7 +137,7 @@ class OpenAIClient
         $this->log->debug('messageCreate', ['eval' => $eval]);
         $flagged = $eval['results'][0]['flagged'] ?? false;
         if (!$flagged) return true;
-        $this->log_message($data['guild_id'], 'Message flagged ' . print_r($eval, true));
+        $this->log_message($data, $eval) or throw new Error('failed to log message');
         return true;
     }
 
@@ -201,20 +201,36 @@ class OpenAIClient
         return true;
     }
 
-    private function log_message(int $guild_id, string $content): bool
+    private function log_message(array $data, array $eval): bool
     {
-        $this->log->debug('log_message', ['guild_id' => $guild_id, 'content' => $content]);
-        $result = $this->sql->query("SELECT `channel_id` FROM `log_channels` WHERE `guild_id` = '$guild_id' LIMIT 1");
+        $guild_id = $data['guild_id'] ?? null;
+        if (!$guild_id) return true;
+        $this->log->debug('log_message', ['guild_id' => $guild_id]);
+        $guild_id_esc = $this->sql->escape($guild_id);
+        $result = $this->sql->query("SELECT `channel_id` FROM `log_channels` WHERE `guild_id` = '$guild_id_esc' LIMIT 1");
         if ($result === false || $result->num_rows === 0) return true;
         $channel_id = $result->fetch_assoc()['channel_id'] ?? null;
         if (!$channel_id) return true;
         $this->log->debug('log_message', ['channel_id' => $channel_id]);
+        $message_id = $data['id'] ?? null;
+        $author_id = $data['author']['id'] ?? null;
+        $timestamp = $data['timestamp'] ?? null;
+        $message_url = 'https://discord.com/channels/' . $guild_id . '/' . $channel_id . '/' . $message_id;
+        $content = $data['content'] ?? null;
         $this->sync->publish('discord', [
             'op' => 0, // DISPATCH
             't' => 'MESSAGE_CREATE',
             'd' => [
-                'content' => $content,
                 'channel_id' => $channel_id,
+                'embeds' => [
+                    [
+                        'title' => '🚩 Flagged Message Alert $message_url',
+                        'color' => 0xff0000,
+                        'url' => $message_url,
+                        'description' => '<@' . $author_id . '> ' . $content,
+                        'timestamp' => $timestamp,
+                    ]
+                ]
             ]
         ]) or throw new Error('failed to publish message to discord');
         return true;
