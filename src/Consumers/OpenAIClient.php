@@ -208,9 +208,12 @@ class OpenAIClient
         if (!$guild_id) return true;
         $this->log->debug('log_message', ['guild_id' => $guild_id]);
         $guild_id_esc = $this->sql->escape($guild_id);
-        $result = $this->sql->query("SELECT `channel_id` FROM `log_channels` WHERE `guild_id` = '$guild_id_esc' LIMIT 1");
+        $result = $this->sql->query("SELECT `channel_id`, `guild_locale` FROM `log_channels` WHERE `guild_id` = '$guild_id_esc' LIMIT 1");
         if ($result === false || $result->num_rows === 0) return true;
-        $log_channel_id = $result->fetch_assoc()['channel_id'] ?? null;
+        $row = $result->fetch_assoc();
+        $log_channel_id = $row['channel_id'] ?? null;
+        $guild_locale = $row['guild_locale'] ?? null;
+        $locale = $this->locales[$guild_locale] ?? $this->locales['en-US'];
         if (!$log_channel_id) return true;
         $this->log->debug('log_message', ['channel_id' => $log_channel_id]);
         $message_id = $data['id'] ?? null;
@@ -224,6 +227,7 @@ class OpenAIClient
             if ($value) {
                 $score = $eval['results'][0]['category_scores'][$key] ?? -1;
                 $score = round($score * 100) . '%';
+                $key = $locale['categories'][$key] ?? $key;
                 $description .= $key . ': ' . $score . "\n";
             }
         }
