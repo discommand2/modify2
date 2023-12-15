@@ -1,4 +1,5 @@
 {
     "help": "\ud83e\udd16 **Modify2 Help Guide**\n\nModify2 is here to keep your Discord server safe! Here's how to get started:\n\n\ud83d\udd11 **Command: \/log_channel**\nUse this command to designate a channel where Modify2 will send alerts for messages flagged for containing hate speech, threats, harassment, self-harm, sexual content, or violence.\n\n**Setting Up Your Log Channel:**\n1. Create a new channel (or choose an existing one) for Modify2 alerts.\n2. Ensure Modify2 has permission to send messages there.\n3. Enter `\/log_channel` in the designated channel to set it as your log channel.\n\n\u2728 That's it! Modify2 will now send notifications to your log channel if a message gets flagged. Remember, you need admin permissions to set this up.\n\n\ud83d\ude80 *Future Plans:*\n- Custom threshold levels for content categories.\n- Tailored policies for different channels and roles.\n- Punishment policies for repeated violations.\n\nStay tuned for updates!\n\nNeed more help? Contact us at https:\/\/discord.gg\/sm87ub2sTm\n\n**Thank you for using Modify2! Let's create a safe community together.**\n\n",
-    "log_channel_confirm": "Log channel set to"
+    "log_channel_confirm": "Log channel set to",
+    "log_channel_admin_only": "I'm sorry, but this command is for administrators only."
 }

@@ -157,14 +157,32 @@ class OpenAIClient
     {
         $this->log->debug('interactionHandle', ['data' => $data]);
         if ($data['member']['user']['id'] == $this->discord_id) return true; // ignore interactions from self
-        $locale = $this->locales[$data['locale']] ?? 'en-US';
+        $locale = $this->locales[$data['locale'] ?? 'en-US'] ?? $this->locales['en-US'];
         switch ($data['data']['name']) {
             case 'help':
-                return $this->interactionReply($data['id'], $locale['help']);
+                return $this->help($data);
             case 'log_channel':
-                return $this->interactionReply($data['id'], $locale['log_channel_confirm'] . ' <#' . $data['channel_id'] . '>');
+                return $this->logChannelSetup($data);
         }
         return true;
+    }
+
+    private function help(array $data): bool
+    {
+        $locale = $this->locales[$data['locale'] ?? 'en-US'] ?? $this->locales['en-US'];
+        return $this->interactionReply($data['id'], $locale['help']);
+    }
+
+    private function logChannelSetup(array $data): bool
+    {
+        $locale = $this->locales[$data['locale'] ?? 'en-US'] ?? $this->locales['en-US'];
+        // TODO: check if user has permission to set log channel (must be admin)
+        $admin = $data['data']['member']['permissions']['administrator'] ?? false;
+        if (!$admin) return $this->interactionReply($data['id'], $locale['log_channel_admin_only']);
+        $guild_id = $this->sql->escape($data['guild_id']);
+        $channel_id = $this->sql->escape($data['channel_id']);
+        $this->sql->query("INSERT INTO `log_channels` (`guild_id`, `channel_id`) VALUES ('$guild_id', '$channel_id') ON DUPLICATE KEY UPDATE `channel_id` = '$channel_id'") or throw new Error('failed to update log_channel_id');
+        return $this->interactionReply($data['id'], $locale['log_channel_confirm'] . ' <#' . $data['channel_id'] . '>');
     }
 
     private function interactionReply(int $id, string $content): bool
