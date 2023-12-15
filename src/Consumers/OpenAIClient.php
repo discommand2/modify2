@@ -155,8 +155,13 @@ class OpenAIClient
     {
         $this->log->debug('interactionHandle', ['data' => $data]);
         if ($data['member']['user']['id'] == $this->discord_id) return true; // ignore interactions from self
-        $this->interactionReply($data['id'], 'hello world');
-        // TODO: actually handle interaction
+        $locale = $this->locales[$data['locale']] ?? 'en-US';
+        switch ($data['data']['name']) {
+            case 'help':
+                return $this->interactionReply($data['id'], $locale['help']);
+            case 'log_channel':
+                return $this->interactionReply($data['id'], $locale['log_channel_confirm'] . ' <#' . $data['channel_id'] . '>');
+        }
         return true;
     }
 

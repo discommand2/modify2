@@ -14,7 +14,7 @@ class Locales
         foreach ($files as $file) {
             $locale = json_decode(file_get_contents($file), true);
             if (!$locale) throw new Error("failed to load locale file: $file");
-            $locales[] = $locale;
+            $locales[basename($file, '.json')] = $locale;
         }
         return $locales;
     }
