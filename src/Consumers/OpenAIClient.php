@@ -75,7 +75,10 @@ class OpenAIClient
         if ($content['op'] === 11) return $this->heartbeat($content);
         switch ($content['t']) {
             case 'MESSAGE_CREATE':
+            case 'MESSAGE_UPDATE':
                 return $this->messageCreate($content['d']);
+            case 'INTERACTION_HANDLE':
+                return $this->interactionHandle($content['d']);
         }
         return true;
     }
@@ -146,6 +149,29 @@ class OpenAIClient
                 'content' => json_encode(array('input' => $text))
             ]
         ])), true);
+    }
+
+    private function interactionHandle(array $data): bool
+    {
+        $this->log->debug('interactionHandle', ['data' => $data]);
+        if ($data['member']['user']['id'] == $this->discord_id) return true; // ignore interactions from self
+        $this->interactionReply($data['id'], 'hello world');
+        // TODO: actually handle interaction
+        return true;
+    }
+
+    private function interactionReply(int $id, string $content): bool
+    {
+        $this->log->debug('interactionReply', ['id' => $id, 'content' => $content]);
+        $this->sync->publish('discord', [
+            'op' => 0, // DISPATCH
+            't' => 'INTERACTION_HANDLE',
+            'd' => [
+                'id' => $id,
+                'content' => $content,
+            ]
+        ]) or throw new Error('failed to publish message to discord');
+        return true;
     }
 
     private function log_message(int $channel_id, string $content): bool
