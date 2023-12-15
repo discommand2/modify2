@@ -240,7 +240,7 @@ class OpenAIClient
                 'embeds' => [
                     [
                         'type' => 'rich',
-                        'title' => '🚩' . $message_url,
+                        'title' => $message_url,
                         'color' => 0xff0000,
                         'url' => $message_url,
                         'description' => $description,
