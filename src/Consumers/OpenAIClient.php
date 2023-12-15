@@ -16,7 +16,6 @@ class OpenAIClient
     private ?Sync $sync = null;
     private ?MySQL $sql = null;
     private ?string $openai_token = null;
-    private $ai = null;
     private ?array $locales = null;
 
     public function __construct(private array $config)
@@ -226,7 +225,7 @@ class OpenAIClient
                 'embeds' => [
                     [
                         'type' => 'rich',
-                        'title' => '🚩 Flagged Message Alert ' . $message_url,
+                        'title' => '🚩' . $message_url,
                         'color' => 0xff0000,
                         'url' => $message_url,
                         'description' => '<@' . $author_id . '> ' . $content,
