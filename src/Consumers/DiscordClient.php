@@ -95,6 +95,7 @@ class DiscordClient
             "d" => json_decode(json_encode($interaction), true)
         ];
         $this->pub->publish("openai", $message);
+        $interaction->acknowledgeWithResponse(true);
     }
 
     private function raw(stdClass $message, Discord $discord): bool // from Discord\Discord::onRaw
@@ -176,7 +177,7 @@ class DiscordClient
     private function interactionHandle(array $interactionReply): bool
     {
         $this->log->debug('interactionHandle', ['interaction' => $interactionReply]);
-        $this->interactions[$interactionReply['id']]->respondWithMessage($this->builder($interactionReply));
+        $this->interactions[$interactionReply['id']]->updateOriginalResponse($this->builder($interactionReply));
         unset($this->interactions[$interactionReply['id']]);
         return true;
     }
