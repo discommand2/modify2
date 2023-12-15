@@ -178,6 +178,7 @@ class DiscordClient
     {
         $this->log->debug('interactionHandle', ['interaction' => $interaction]);
         $this->interactions[$interaction['id']]->respondWithMessage($this->builder($interaction));
+        $this->interactions[$interaction['id']]->acknowledgeWithResponse();
         unset($this->interactions[$interaction['id']]);
         return true;
     }
