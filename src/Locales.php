@@ -7,15 +7,15 @@ class Locales
     public static function get(): array
     {
         $path = __DIR__ . "/../locales/";
-        if (!is_dir($path)) throw new Error("commands folder not found");
+        if (!is_dir($path)) throw new Error("locales folder not found");
         $files = glob($path . '*.json');
         if (!$files) throw new Error("no locales found");
-        $commands = [];
+        $locales = [];
         foreach ($files as $file) {
-            $command = json_decode(file_get_contents($file), true);
-            if (!$command) throw new Error("failed to load locale file: $file");
-            $commands[] = $command;
+            $locale = json_decode(file_get_contents($file), true);
+            if (!$locale) throw new Error("failed to load locale file: $file");
+            $locales[] = $locale;
         }
-        return $commands;
+        return $locales;
     }
 }
