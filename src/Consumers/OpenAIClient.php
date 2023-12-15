@@ -217,6 +217,15 @@ class OpenAIClient
         $channel_id = $data['channel_id'] ?? null;
         $message_url = 'https://discord.com/channels/' . $guild_id . '/' . $channel_id . '/' . $message_id;
         $content = $data['content'] ?? null;
+        $description = '<@' . $author_id . '> ' . $content . "\n\n";
+        foreach ($eval['results'][0]['categories'] as $key => $value) {
+            if ($value) {
+                $score = $eval['results'][0]['category_scores'][$key] ?? -1;
+                $score = round($score * 100, 2) . '%';
+                $description .= $key . ': ' . $score . "\n";
+            }
+        }
+        $description = trim($description);
         $this->sync->publish('discord', [
             'op' => 0, // DISPATCH
             't' => 'MESSAGE_CREATE',
@@ -228,7 +237,7 @@ class OpenAIClient
                         'title' => '🚩' . $message_url,
                         'color' => 0xff0000,
                         'url' => $message_url,
-                        'description' => '<@' . $author_id . '> ' . $content,
+                        'description' => $description,
                         'timestamp' => $timestamp,
                     ]
                 ]
