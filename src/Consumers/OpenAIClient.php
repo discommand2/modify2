@@ -178,7 +178,7 @@ class OpenAIClient
     private function logChannelSetup(array $data): bool
     {
         $locale = $this->locales[$data['locale'] ?? 'en-US'] ?? $this->locales['en-US'];
-        $admin = $data['member']['permissions']['administrator'] ?? false;
+        $admin = $data['member']['permissions']['manage_guild'] ?? false;
         if (!$admin) return $this->interactionReply($data['id'], $locale['log_channel_admin_only']);
         $guild_id = $this->sql->escape($data['guild_id'] ?? null);
         $channel_id = $this->sql->escape($data['channel_id'] ?? null);
