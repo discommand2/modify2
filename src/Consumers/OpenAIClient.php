@@ -224,6 +224,7 @@ class OpenAIClient
                 'channel_id' => $channel_id,
                 'embeds' => [
                     [
+                        'type' => 'rich',
                         'title' => '🚩 Flagged Message Alert $message_url',
                         'color' => 0xff0000,
                         'url' => $message_url,
