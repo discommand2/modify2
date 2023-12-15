@@ -180,9 +180,11 @@ class OpenAIClient
         $locale = $this->locales[$data['locale'] ?? 'en-US'] ?? $this->locales['en-US'];
         $admin = $data['member']['permissions']['administrator'] ?? false;
         if (!$admin) return $this->interactionReply($data['id'], $locale['log_channel_admin_only']);
-        $guild_id = $this->sql->escape($data['guild_id']);
-        $channel_id = $this->sql->escape($data['channel_id']);
-        $this->sql->query("INSERT INTO `log_channels` (`guild_id`, `channel_id`) VALUES ('$guild_id', '$channel_id') ON DUPLICATE KEY UPDATE `channel_id` = '$channel_id'") or throw new Error('failed to update log_channel_id');
+        $guild_id = $this->sql->escape($data['guild_id'] ?? null);
+        $channel_id = $this->sql->escape($data['channel_id'] ?? null);
+        $guild_locale = $this->sql->escape($data['guild_locale'] ?? null);
+        if (!$guild_id || !$channel_id || !$guild_locale) return $this->interactionReply($data['id'], $locale['log_channel_error']);
+        $this->sql->query("INSERT INTO `log_channels` (`guild_id`, `channel_id`, `guild_locale`) VALUES ('$guild_id', '$channel_id', '$guild_locale') ON DUPLICATE KEY UPDATE `channel_id` = '$channel_id', `guild_locale` = '$guild_locale'") or throw new Error('failed to insert log channel');
         return $this->interactionReply($data['id'], $locale['log_channel_confirm'] . ' <#' . $data['channel_id'] . '>');
     }
 

@@ -64,6 +64,7 @@ class MySQL
 
     public function escape(mixed $text): mixed
     {
+        if (is_null($text)) return null;
         if (is_array($text)) return array_map($this->escape(...), $text);
         return mysqli_real_escape_string($this->sql, $text);
     }
