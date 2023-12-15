@@ -209,19 +209,20 @@ class OpenAIClient
         $guild_id_esc = $this->sql->escape($guild_id);
         $result = $this->sql->query("SELECT `channel_id` FROM `log_channels` WHERE `guild_id` = '$guild_id_esc' LIMIT 1");
         if ($result === false || $result->num_rows === 0) return true;
-        $channel_id = $result->fetch_assoc()['channel_id'] ?? null;
-        if (!$channel_id) return true;
-        $this->log->debug('log_message', ['channel_id' => $channel_id]);
+        $log_channel_id = $result->fetch_assoc()['channel_id'] ?? null;
+        if (!$log_channel_id) return true;
+        $this->log->debug('log_message', ['channel_id' => $log_channel_id]);
         $message_id = $data['id'] ?? null;
         $author_id = $data['author']['id'] ?? null;
         $timestamp = $data['timestamp'] ?? null;
+        $channel_id = $data['channel_id'] ?? null;
         $message_url = 'https://discord.com/channels/' . $guild_id . '/' . $channel_id . '/' . $message_id;
         $content = $data['content'] ?? null;
         $this->sync->publish('discord', [
             'op' => 0, // DISPATCH
             't' => 'MESSAGE_CREATE',
             'd' => [
-                'channel_id' => $channel_id,
+                'channel_id' => $log_channel_id,
                 'embeds' => [
                     [
                         'type' => 'rich',
