@@ -225,7 +225,7 @@ class OpenAIClient
                 'embeds' => [
                     [
                         'type' => 'rich',
-                        'title' => '🚩 Flagged Message Alert $message_url',
+                        'title' => '🚩 Flagged Message Alert ' . $message_url,
                         'color' => 0xff0000,
                         'url' => $message_url,
                         'description' => '<@' . $author_id . '> ' . $content,
