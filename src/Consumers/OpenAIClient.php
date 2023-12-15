@@ -131,14 +131,16 @@ class OpenAIClient
     private function messageCreate(array $data): bool
     {
         $this->log->debug('messageCreate', ['data' => $data]);
-        if ($data['author']['id'] == $this->discord_id) return true; // ignore messages from self
-        $eval = $this->evaluate($data['content']);
+        if (!isset($data['author']['id'], $data['content'])) return true;
+        if ($data['author']['id'] == $this->discord_id) return true;
+        $eval = $this->evaluate($data['content'] ?? null);
         $this->log->debug('messageCreate', ['eval' => $eval]);
         return true;
     }
 
-    private function evaluate(string $text): array
+    private function evaluate(?string $text): array
     {
+        $this->log->debug('evaluate', ['text' => $text]);
         return json_decode(file_get_contents('https://api.openai.com/v1/moderations', false, stream_context_create([
             'http' => [
                 'method' => 'POST',
