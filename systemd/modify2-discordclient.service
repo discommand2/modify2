@@ -1,5 +1,5 @@
 [Unit]
-Description=modify2 Client
+Description=modify2 Discord Client
 PartOf=modify2.target
 After=network.target
 
