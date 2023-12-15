@@ -165,8 +165,26 @@ class OpenAIClient
                 return $this->help($data);
             case 'log_channel':
                 return $this->logChannelSetup($data);
+            case 'Evaluate':
+                return $this->evaluateContext($data);
         }
         return true;
+    }
+
+    private function evaluateContext(array $data): bool
+    {
+        $locale = $this->locales[$data['locale'] ?? 'en-US'] ?? $this->locales['en-US'];
+        $messages = $data['data']['resolved']['messages'] ?? [];
+        foreach ($messages as $message_id => $message) $content = $message['content'] ?? null;
+        $eval = $this->evaluate($content);
+        $results = '';
+        foreach ($eval['results'][0]['category_scores'] as $key => $value) {
+            $score = round($value * 100) . '%';
+            $key = $locale['categories'][$key] ?? $key;
+            $results .= $key . ': ' . $score . "\n";
+        }
+        $results = trim($results);
+        return $this->interactionReply($data['id'], $results);
     }
 
     private function help(array $data): bool
